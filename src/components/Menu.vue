@@ -19,11 +19,11 @@
           <img
             class="logo ml-auto mr-auto"
             style="display: inline-block;
-                  border-radius: 50%;
-                  width: 50px;" src="https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80"
+                  width: 50px;" src="https://wpimg.wallstcn.com/0e03b7da-db9e-4819-ba10-9016ddfdaed3"
             width="38"
             alt="logo"
           />
+          <!-- https://panjiachen.github.io/vue-element-admin/static/img/401.089007e7.gif?1626230077767 -->
         </div>
         <span v-show="!menu.collapse" style="color: #fff;">
           vue3-vite-template

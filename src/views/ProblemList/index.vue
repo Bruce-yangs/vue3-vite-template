@@ -119,13 +119,8 @@
       </div>
       <!-- height:calc(100% - 30px) -->
       <el-skeleton :rows="5" animated v-if="isLodding" />
-      <el-table
-        v-else
-        :data="datas.tableData"
-        style="width: 100%;"
-        border
-      >
-      <!--   @selection-change="handleSelectionChange" -->
+      <el-table v-else :data="datas.tableData" style="width: 100%;" border>
+        <!--   @selection-change="handleSelectionChange" -->
         <!-- <el-table-column type="selection" width="40"></el-table-column> -->
         <el-table-column
           prop="issueCode"
@@ -188,7 +183,7 @@
         </el-table-column>
         <el-table-column prop="status" width="130" label="问题状态">
           <template #default="scope">
-            <span>{{ problemStatus[scope.row.status-1].label }}</span>
+            <span>{{ problemStatus[scope.row.status - 1].label }}</span>
           </template>
         </el-table-column>
         <el-table-column label="操作" min-width="500">
@@ -198,15 +193,19 @@
               type="text"
               v-has="'issue_check'"
               class="common-btn-text"
-              @click="router.push('/problem-list/problem-detail?id=' + scope.row.id)">
+              @click="
+                router.push('/problem-list/problem-detail?id=' + scope.row.id)
+              "
+            >
               <i class="iconfont el-icon-document"></i>
               查看
             </el-button>
-            <el-button  
+            <el-button
               v-if="scope.row.closedBtnType === 1"
               type="text"
               class="common-btn-text"
-              @click="showCloseProblemDialog(scope.row.id)">
+              @click="showCloseProblemDialog(scope.row.id)"
+            >
               <i class="iconfont el-icon-circle-close"></i>
               关闭
             </el-button>
@@ -220,7 +219,8 @@
               复制
             </el-button>
             <el-button
-              type="text" v-if="scope.row.editBtnType === 1"
+              type="text"
+              v-if="scope.row.editBtnType === 1"
               v-has="'issue_edit'"
               class="common-btn-text"
               @click="router.push('/problem-list/edit?id=' + scope.row.id)"
@@ -240,7 +240,8 @@
               <i class="iconfont el-icon-tickets"></i>
               补充
             </el-button>
-            <el-button  v-if="scope.row.checkBtnType === 1"
+            <el-button
+              v-if="scope.row.checkBtnType === 1"
               type="text"
               class="common-btn-text"
               @click="
@@ -250,7 +251,8 @@
               <i class="iconfont el-icon-reading"></i>
               校验
             </el-button>
-            <el-button v-if="scope.row.managementBtnType === 1"
+            <el-button
+              v-if="scope.row.managementBtnType === 1"
               type="text"
               class="common-btn-text"
               @click="
@@ -272,19 +274,40 @@
         @pagination="asyncData"
       />
     </el-card>
-    <form action="/api/conductorIssueRecord/exportConductorListIssueRecordListVo " hidden ref="exportForm" method="get">
-      <input type="hidden" name="taskId" v-model="form.taskId">
-      <input type="hidden" name="issueCode" v-model="form.issueCode">
-      <input type="hidden" name="equipmentModelCodeSubmit" v-model="equipmentModelCodeSubmit">
-      <input type="hidden" name="status" v-model="form.status">
-      <input type="hidden" name="problemLevel" v-model="form.problemLevel">
-      <input type="hidden" name="managementGroupId" v-model="form.managementGroupId">
-      <input type="hidden" name="managementId" v-model="form.managementId">
-      <input type="hidden" name="auditStatus" v-model="form.auditStatus">
-      <input type="hidden" name="occurrenceTime" v-model="form.occurrenceTime">
+    <form
+      action="/api/conductorIssueRecord/exportConductorListIssueRecordListVo "
+      hidden
+      ref="exportForm"
+      method="get"
+    >
+      <input type="hidden" name="taskId" v-model="form.taskId" />
+      <input type="hidden" name="issueCode" v-model="form.issueCode" />
+      <input
+        type="hidden"
+        name="equipmentModelCodeSubmit"
+        v-model="equipmentModelCodeSubmit"
+      />
+      <input type="hidden" name="status" v-model="form.status" />
+      <input type="hidden" name="problemLevel" v-model="form.problemLevel" />
+      <input
+        type="hidden"
+        name="managementGroupId"
+        v-model="form.managementGroupId"
+      />
+      <input type="hidden" name="managementId" v-model="form.managementId" />
+      <input type="hidden" name="auditStatus" v-model="form.auditStatus" />
+      <input
+        type="hidden"
+        name="occurrenceTime"
+        v-model="form.occurrenceTime"
+      />
     </form>
-    
-    <el-dialog title="关闭问题" v-model="isShowCloseProblemDialog" width="600px">
+
+    <el-dialog
+      title="关闭问题"
+      v-model="isShowCloseProblemDialog"
+      width="600px"
+    >
       <el-form
         :model="closeProblemForm"
         label-width="90px"
@@ -315,213 +338,274 @@
 </template>
 
 <script lang="ts" setup>
-  import {
-    ref,
-    reactive,
-    watch
-  } from 'vue'
-  import { useRouter, useRoute } from 'vue-router'
-  import { ElMessage } from 'element-plus'
-  import dayjs from 'dayjs'
+import { ref, reactive, watch } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import { ElMessage } from 'element-plus'
+import dayjs from 'dayjs'
 
-  import Pagination from '../../components/Pagination.vue'
-  import axios from '../../utils/request'
-  import { useDataFillds, useParamOptions, useExpertGroupOptions } from './hooks'
-  // import { Item } from './types'
-  const router = useRouter()
-  const route = useRoute()
-  // 问题状态
-  const problemStatus = reactive([
-    { value: 1, label: '待解决' },
-    { value: 2, label: '未解决' },
-    { value: 3, label: '待校验' },
-    { value: 4, label: '已校验' },
-    { value: 5, label: '已关闭' },
-    { value: 6, label: '不是问题已关闭' }
-  ])
-  let datas = reactive<any>({
-    tableData: [],
-    expertGroupData: [], // 专家组下拉数据
-    expertData: [] // 专家下拉数据
-  })
-  const form = reactive<any>({
-    taskId: '',
-    issueCode: '',
-    equipmentModelCode: '',
-    occurrenceTime: '',
-    problemLevel: '',
-    status: '',
-    auditStatus: '',
-    managementId: '',
-    managementGroupId: ''
-  })
-  const currentPage = ref(1)
-  const pageSize = ref(10)
-  const total = ref(0)
-  const isLodding = ref(true)
-  const exportForm = ref()
-
-  const asyncRoute = () => {
-    if (route.query.auditStatus) {
-      form.auditStatus = route.query.auditStatus
+import Pagination from '../../components/Pagination.vue'
+import axios from '../../utils/request'
+import { useDataFillds, useParamOptions, useExpertGroupOptions } from './hooks'
+// import { Item } from './types'
+const router = useRouter()
+const route = useRoute()
+// 问题状态
+const problemStatus = reactive([
+  { value: 1, label: '待解决' },
+  { value: 2, label: '未解决' },
+  { value: 3, label: '待校验' },
+  { value: 4, label: '已校验' },
+  { value: 5, label: '已关闭' },
+  { value: 6, label: '不是问题已关闭' }
+])
+let datas = reactive<any>({
+  tableData: [
+    {
+      auditStatus: 3,
+      auditStatusName: null,
+      causeAnalysis: '',
+      checkBtnType: 1,
+      closedBtnType: null,
+      creatorId: 68,
+      creatorType: 2,
+      detailedDescription: '描述',
+      disposalProcessId: null,
+      disposalType: null,
+      editBtnType: null,
+      equipmentModelName: '复仇者联盟',
+      equipmentNumber: '3255234',
+      id: '723d9252b80245e6bfad1e86d9b1abf7',
+      issueCode: '0000002',
+      managementBtnType: null,
+      managementProposal: '处置建议：\n',
+      managementType: 1,
+      managementor: '张三',
+      occurrenceTime: '2021-07-07 00:00:00',
+      occurrenceTimes: null,
+      problemLevel: 2,
+      problemLevelName: null,
+      reportGroupId: null,
+      status: 3,
+      statusName: null,
+      taskId: '7cc449853f43489584266bb9b26ee39d'
+    },
+    {
+      auditStatus: 2,
+      auditStatusName: null,
+      causeAnalysis: '',
+      checkBtnType: null,
+      closedBtnType: null,
+      creatorId: 68,
+      creatorType: 2,
+      detailedDescription: '描述',
+      disposalProcessId: null,
+      disposalType: 1,
+      editBtnType: 1,
+      equipmentModelName: '宇宙联盟',
+      equipmentNumber: '3255234',
+      id: 'a039b54cab424bd5937bdec8e727342e',
+      issueCode: '0000001',
+      managementBtnType: 1,
+      managementProposal: null,
+      managementType: 0,
+      managementor: null,
+      occurrenceTime: '2021-07-07 00:00:00',
+      occurrenceTimes: null,
+      problemLevel: 2,
+      problemLevelName: null,
+      reportGroupId: null,
+      status: 1,
+      statusName: null,
+      taskId: '7cc449853f43489584266bb9b26ee39d'
     }
+  ],
+  expertGroupData: [], // 专家组下拉数据
+  expertData: [] // 专家下拉数据
+})
+const form = reactive<any>({
+  taskId: '',
+  issueCode: '',
+  equipmentModelCode: '',
+  occurrenceTime: '',
+  problemLevel: '',
+  status: '',
+  auditStatus: '',
+  managementId: '',
+  managementGroupId: ''
+})
+const currentPage = ref(1)
+const pageSize = ref(10)
+const total = ref(0)
+const isLodding = ref(false)
+const exportForm = ref()
+
+const asyncRoute = () => {
+  if (route.query.auditStatus) {
+    form.auditStatus = route.query.auditStatus
   }
-  asyncRoute()
-  watch(()=>route.query, () => {
+}
+asyncRoute()
+watch(
+  () => route.query,
+  () => {
     asyncRoute()
-  })
-
-  const equipmentModelCodeSubmit = ref('')
-  const onChangeType = (v: any) => {
-    if(v.length) {
-      equipmentModelCodeSubmit.value = v[v.length -1]
-    }
   }
+)
 
-  const asyncData = () => {
-    isLodding.value = true
-    axios
-      .get('/conductorIssueRecord/conductorListIssueRecordListVo', {
-        params: {
-          ...form,
-          occurrenceTime: form.occurrenceTime
-            ? dayjs(form.occurrenceTime).format('YYYY-MM-DD')
-            : form.occurrenceTime,
-            equipmentModelCode: equipmentModelCodeSubmit.value,
-          pageNum: currentPage.value,
-          pageSize: pageSize.value
-        }
-      })
-      .then(res => {
-        if (res.data.code === 200) {
-          datas.tableData = res.data.data.list || []
-          total.value = res.data.data.total
-        } else {
-          ElMessage.error(res.data.msg)
-        }
-      }).finally(()=>{isLodding.value = false})
+const equipmentModelCodeSubmit = ref('')
+const onChangeType = (v: any) => {
+  if (v.length) {
+    equipmentModelCodeSubmit.value = v[v.length - 1]
   }
-  asyncData()
+}
 
-  //获取问题装备型号 数据  数结构
-  const selectEquipmentIdsList: any = useDataFillds(
-    '/equipment/getTreeList',
-    null
-  )
-  // 演习任务下拉数据
-  const taskSelectList: any = useParamOptions(
-    'conductorExerciseTask/getExerciseTaskList',
-    null
-  )
-  const taskChange = (e: any) => {
-    // 指派下拉列表
-    if (e) {
-      datas.expertGroupData = useParamOptions(
-        'conductorExerciseTask/getTaskGroupList',
-        form.taskId
-      )
-    }
-  }
-  const groupChange = () => {
-    datas.expertData = useExpertGroupOptions(
-      'conductorExerciseTask/getTaskGroupUserList',
-      form.managementGroupId
+const asyncData = () => {
+  // isLodding.value = true
+  axios
+    .get('/conductorIssueRecord/conductorListIssueRecordListVo', {
+      params: {
+        ...form,
+        occurrenceTime: form.occurrenceTime
+          ? dayjs(form.occurrenceTime).format('YYYY-MM-DD')
+          : form.occurrenceTime,
+        equipmentModelCode: equipmentModelCodeSubmit.value,
+        pageNum: currentPage.value,
+        pageSize: pageSize.value
+      }
+    })
+    .then(res => {
+      if (res.data.code === 200) {
+        datas.tableData = res.data.data.list || []
+        total.value = res.data.data.total
+      } else {
+        ElMessage.error(res.data.msg)
+      }
+    })
+    .finally(() => {
+      isLodding.value = false
+    })
+}
+// asyncData()
+
+//获取问题装备型号 数据  数结构
+const selectEquipmentIdsList: any = useDataFillds(
+  '/equipment/getTreeList',
+  null
+)
+// 演习任务下拉数据
+const taskSelectList: any = useParamOptions(
+  'conductorExerciseTask/getExerciseTaskList',
+  null
+)
+const taskChange = (e: any) => {
+  // 指派下拉列表
+  if (e) {
+    datas.expertGroupData = useParamOptions(
+      'conductorExerciseTask/getTaskGroupList',
+      form.taskId
     )
   }
+}
+const groupChange = () => {
+  datas.expertData = useExpertGroupOptions(
+    'conductorExerciseTask/getTaskGroupUserList',
+    form.managementGroupId
+  )
+}
 
-  // 关闭问题弹框 start
-    const issueRecordId = ref<number>() // 要关闭的问题编号
-    const isShowCloseProblemDialog = ref(false)
-    const closeProblemForm = reactive({
-      supplementDescription: '', // 补充信息
+// 关闭问题弹框 start
+const issueRecordId = ref<number>() // 要关闭的问题编号
+const isShowCloseProblemDialog = ref(false)
+const closeProblemForm = reactive({
+  supplementDescription: '' // 补充信息
+})
+const showCloseProblemDialog = (id: number) => {
+  issueRecordId.value = id
+  isShowCloseProblemDialog.value = true
+}
+const handleCloseProblem = () => {
+  axios
+    .post('/conductorIssueRecord/conductorClosedIssueRecordLog', {
+      ...closeProblemForm,
+      issueRecordId: issueRecordId.value
     })
-    const showCloseProblemDialog = (id:number) => {
-      issueRecordId.value = id
-      isShowCloseProblemDialog.value = true
-    }
-    const handleCloseProblem = () => {
-      axios
-        .post('/conductorIssueRecord/conductorClosedIssueRecordLog', {
-          ...closeProblemForm,
-          issueRecordId: issueRecordId.value
-        })
-        .then(res => {
-          if (res.data.code === 200) {
-            closeProblemForm.supplementDescription = ''
-            isShowCloseProblemDialog.value = false
-            asyncData()
-          } else {
-            ElMessage.error(res.data.msg)
-          }
-        })
-    }
-  // 关闭问题弹框 end
+    .then(res => {
+      if (res.data.code === 200) {
+        closeProblemForm.supplementDescription = ''
+        isShowCloseProblemDialog.value = false
+        asyncData()
+      } else {
+        ElMessage.error(res.data.msg)
+      }
+    })
+}
+// 关闭问题弹框 end
 
-  //重置
-  const handleReset = () => {
-    currentPage.value = 1
-    pageSize.value = 10
-    form.taskId = ''
-    form.issueCode = ''
-    form.equipmentModelCode = ''
-    form.occurrenceTime = ''
-    form.problemLevel = ''
-    form.status = ''
-    form.auditStatus = ''
-    form.managementId = ''
-    form.managementGroupId = ''
-    equipmentModelCodeSubmit.value = ''
-    router.push('/problem-list')
-    asyncData()
-  }
+//重置
+const handleReset = () => {
+  currentPage.value = 1
+  pageSize.value = 10
+  form.taskId = ''
+  form.issueCode = ''
+  form.equipmentModelCode = ''
+  form.occurrenceTime = ''
+  form.problemLevel = ''
+  form.status = ''
+  form.auditStatus = ''
+  form.managementId = ''
+  form.managementGroupId = ''
+  equipmentModelCodeSubmit.value = ''
+  router.push('/problem-list')
+  asyncData()
+}
 
-  const multipleData = ref([])
-  //多选合并
-  const handleSelectionChange = (val: []) => {
-    multipleData.value = val
-  }
-  //导出
-  const handleEvent = () => {
-    exportForm.value.submit()
-  }
+const multipleData = ref([])
+//多选合并
+const handleSelectionChange = (val: []) => {
+  multipleData.value = val
+}
+//导出
+const handleEvent = () => {
+  exportForm.value.submit()
+}
 </script>
 
 <style lang="scss" scoped>
-  h3 {
-    font-size: 19px;
+h3 {
+  font-size: 19px;
+  font-weight: bold;
+  margin-top: 10px;
+  margin-bottom: 30px;
+  margin-left: 10px;
+}
+.container {
+  padding: 20px;
+  overflow-y: auto;
+  box-sizing: border-box;
+  .title {
+    font-size: 16px;
+    color: #454545;
+    font-weight: 500;
+    margin-bottom: 16px;
+  }
+  .filter-container {
+    :deep(.el-form-item--small.el-form-item) {
+      margin-bottom: 8px;
+    }
+  }
+  .control-button {
+    margin: 8px 0;
+  }
+  :deep(.el-table__header-wrapper tr th) {
+    background-color: #f2f2f4;
     font-weight: bold;
-    margin-top: 10px;
-    margin-bottom: 30px;
-    margin-left: 10px;
+    color: #3f4a4d;
   }
-  .container {
-    padding: 20px;
-    overflow-y: auto;
-    box-sizing: border-box;
-    .title {
-      font-size: 16px;
-      color: #454545;
-      font-weight: 500;
-      margin-bottom: 16px;
-    }
-    .filter-container {
-      :deep(.el-form-item--small.el-form-item) {
-        margin-bottom: 8px;
-      }
-    }
-    .control-button {
-      margin: 8px 0;
-    }
-    :deep(.el-table__header-wrapper tr th) {
-      background-color: #f2f2f4;
-      font-weight: bold;
-      color: #3f4a4d;
-    }
-  }
-  </style>
-  <style>
-  .quesition-list .el-date-editor.el-input,
-  .quesition-list .el-date-editor.el-input__inner {
-    width: 160px;
-  }
+}
+</style>
+<style>
+.quesition-list .el-date-editor.el-input,
+.quesition-list .el-date-editor.el-input__inner {
+  width: 160px;
+}
 </style>

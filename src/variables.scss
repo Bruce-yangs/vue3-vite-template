@@ -1,9 +1,18 @@
 /* 改变主题色变量 */
-$--color-primary: #517EF6;
-$--color-assist: #17cabe; //辅助色（滑过）
+// $--color-primary: #517ff6;
+// // $--color-primary: #517EF6;
+// $--color-assist: #17cabe; //辅助色（滑过）
+// $--color-gray-secondary: #C1CAD8; //删除确认弹框
+// $--color-menu: rgb(40, 39, 39); //菜单按钮背景
+// $--color-menu--font: #3BC6BC; //菜单按钮字体
+
+$--color-primary: #40BE8C;
+$--color-assist: #B6EBD6; //辅助色（滑过）
 $--color-gray-secondary: #C1CAD8; //删除确认弹框
-$--color-menu: rgb(40, 39, 39); //菜单按钮背景
-$--color-menu--font: #3BC6BC; //菜单按钮字体
+$--color-menu: rgb(40, 39, 39) !important; //菜单按钮背景
+$--color-menu--font: #40BE8C !important; //菜单按钮字体
+
+
 
 // $--color-primary: #3BC6BC;
 // $--color-assist: #17cabe; //辅助色（滑过）

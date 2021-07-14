@@ -5,17 +5,24 @@
     </el-aside>
     <el-container class="main-container">
       <el-header class="header">
-        <div class="msg-box" @click="router.push('/problem-list?auditStatus=2')">待分析 {{waitResolve}}</div>
+        <div
+          class="msg-box"
+          @click="router.push('/problem-list?auditStatus=2')"
+        >
+          消息 {{ waitResolve }}
+        </div>
 
         <div class="avatar-container">
           <el-dropdown @command="handleCommand">
             <div>
-             
               <!-- <i class="iconfont icon-yonghu avatar"></i> -->
-              <img style="display: inline-block;
+              <img
+                style="display: inline-block;
                   border-radius: 50%;
-                  width: 50px;" src="https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80"> 
-     <span>{{ username }}</span>
+                  width: 38px;  margin-right: 7px;"
+                src="https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80"
+              />
+              <span>{{ username }}</span>
               <!-- https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80 -->
             </div>
             <template #dropdown>
@@ -44,8 +51,8 @@ export default defineComponent({
     const router = useRouter()
     const menuOpen = ref(false)
     const asideWidth = ref('180px')
-    const username =  window.localStorage.getItem('username');
-    
+    const username = window.localStorage.getItem('username')
+
     const toggleCollapse = (collapse: boolean) => {
       asideWidth.value = collapse ? '64px' : '180px'
       menuOpen.value = collapse
@@ -65,9 +72,10 @@ export default defineComponent({
     }
     const store = useStore()
     store.dispatch('asyncGetCount')
-   
+
     return {
-      username, waitResolve: computed(() => store.state.waitResolve),
+      username,
+      waitResolve: computed(() => store.state.waitResolve),
       router,
       asideWidth,
       menuOpen,
@@ -110,7 +118,7 @@ export default defineComponent({
     height: 34px;
     line-height: 34px;
     padding: 0 10px;
-    background-color: #DD1D35;
+    background-color: #dd1d35;
     color: #fff;
     border-radius: 5px;
     cursor: pointer;
