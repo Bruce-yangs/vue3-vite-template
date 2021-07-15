@@ -47,6 +47,6 @@
     }
   },
   "lint-staged": {
-    "*.js": "eslint --fix"
+    "*.{js,ts,html,css,vue}": "prettier --write"
   }
 }
