@@ -283,7 +283,6 @@ export default defineComponent({
   }
 })
 </script>
-
 <style lang="scss" scoped>
 @import '../variables.scss';
 .menu-container {
