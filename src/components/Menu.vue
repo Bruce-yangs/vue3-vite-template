@@ -280,10 +280,6 @@ export default defineComponent({
       toggleCollapse,
       path: route.path
     }
-
-
-    
-
   }
 })
 </script>
