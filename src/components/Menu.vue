@@ -19,7 +19,8 @@
           <img
             class="logo ml-auto mr-auto"
             style="display: inline-block;
-                  width: 50px;" src="https://wpimg.wallstcn.com/0e03b7da-db9e-4819-ba10-9016ddfdaed3"
+                  width: 50px;"
+            src="https://wpimg.wallstcn.com/0e03b7da-db9e-4819-ba10-9016ddfdaed3"
             width="38"
             alt="logo"
           />
@@ -113,14 +114,14 @@ const useMenu = () => {
             'issue_supplement'
           ],
           children: [],
-          powerName: '问题管理',
+          powerName: '列表管理',
           powerNo: '20008',
           powerUrl: '/problem-list'
         },
         {
           btns: [],
           children: [],
-          powerName: '问题装备统计',
+          powerName: '数据统计',
           powerNo: '20009',
           powerUrl: '/problem-report'
         }
@@ -267,7 +268,6 @@ export default defineComponent({
   setup(_, { emit }) {
     const { menu, toggleCollapse } = useMenu()
     const route = useRoute()
-
     watch(
       () => menu.collapse,
       state => {
@@ -280,6 +280,11 @@ export default defineComponent({
       toggleCollapse,
       path: route.path
     }
+
+
+
+
+    
   }
 })
 </script>
