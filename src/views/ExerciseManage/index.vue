@@ -179,40 +179,6 @@
                 <i class="iconfont el-icon-delete"></i>
                 删除
               </el-button>
-              <el-button
-                v-if="scope.row.status === 2"
-                type="text"
-                v-has="'task_assessment'"
-                class="common-btn-text"
-                @click="
-                  router.push(
-                    '/exercise-manage/exercise-report/add/' + scope.row.id
-                  )
-                "
-              >
-                <i class="iconfont el-icon-edit"></i>
-                评估
-              </el-button>
-              <!-- <el-button
-                type="text"
-                class="common-btn-text"
-                @click="router.push('/exercise-manage/exercise-report/edit/' + scope.row.id)"
-              >
-                <i class="iconfont el-icon-edit-outline"></i>
-                评估编辑
-              </el-button> -->
-              <el-button
-                v-if="scope.row.reportBtnType === 1 && scope.row.status === 2"
-                v-has="'task_report'"
-                type="text"
-                class="common-btn-text"
-                @click="
-                  router.push('/exercise-manage/report-details/' + scope.row.id)
-                "
-              >
-                <i class="iconfont el-icon-tickets"></i>
-                报告详情
-              </el-button>
             </template>
           </el-table-column>
         </el-table>

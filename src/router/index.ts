@@ -62,37 +62,10 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('../views/ProblemList/edit.vue')
       },
       {
-        path: '/problem-list/problem-detail',
-        name: 'ProblemDetail',
-        component: () => import('../views/ProblemList/problemDetail.vue')
-      },
-      {
-        path: '/problem-list/problem-handl',
-        name: 'ProblemHandl',
-        component: () => import('../views/ProblemList/problemHandl.vue')
-      },
-      {
         path: '/problem-list/problem-check',
         name: 'ProblemCheck',
         component: () => import('../views/ProblemList/problemCheck.vue')
       },
-      {
-        path: '/problem-list/problem-slupplement',
-        name: 'SupplementInfo',
-        component: () => import('../views/ProblemList/supplementInfo.vue')
-      },
-      {
-        path: '/problem-report',
-        name: 'ProblemReport',
-        component: () => import('../views/ProblemList/problemReport.vue')
-      },
-      // 基础数据管理
-      // {
-      //   path: "/equipment-problem",
-      //   name: "EquipmentProblem",
-      //   component: () => import("../views/EquipmentProblem/index.vue")
-      // },
-      
       // 用户管理
       {
         path: "/user-manage",

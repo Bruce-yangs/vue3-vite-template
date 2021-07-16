@@ -228,42 +228,6 @@
               <i class="iconfont el-icon-edit-outline"></i>
               编辑
             </el-button>
-            <el-button
-              type="text"
-              class="common-btn-text"
-              @click="
-                router.push(
-                  '/problem-list/problem-slupplement?id=' + scope.row.id
-                )
-              "
-            >
-              <i class="iconfont el-icon-tickets"></i>
-              补充
-            </el-button>
-            <el-button
-              v-if="scope.row.checkBtnType === 1"
-              type="text"
-              class="common-btn-text"
-              @click="
-                router.push('/problem-list/problem-check?id=' + scope.row.id)
-              "
-            >
-              <i class="iconfont el-icon-reading"></i>
-              校验
-            </el-button>
-            <el-button
-              v-if="scope.row.managementBtnType === 1"
-              type="text"
-              class="common-btn-text"
-              @click="
-                router.push(
-                  `/problem-list/problem-handl?taskId=${scope.row.taskId}&id=${scope.row.id}`
-                )
-              "
-            >
-              <i class="iconfont  el-icon-view"></i>
-              分析
-            </el-button>
           </template>
         </el-table-column>
       </el-table>

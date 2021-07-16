@@ -12,7 +12,6 @@
         <p class="tip">用户名</p>
         <el-form-item prop="loginName">
           <el-input
-            autocomplete="new-password"
             v-model.trim="form.loginName"
             clearable
             placeholder="请输入用户名"
@@ -21,7 +20,6 @@
         <p class="tip">密码</p>
         <el-form-item prop="pwd">
           <el-input
-            autocomplete="new-password"
             v-model.trim="form.pwd"
             clearable
             type="password"
@@ -198,6 +196,9 @@ export default {
       ruleForm,
       asyncGetPowerList,
       asyncGetImgCode
+
+
+      
     }
   }
 }
