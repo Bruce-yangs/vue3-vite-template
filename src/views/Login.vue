@@ -8,10 +8,11 @@
         ref="ruleForm"
         :rules="rules"
       >
-        <div class="title">差点是帅哥、 </div>
+        <div class="title">差点是帅哥、</div>
         <p class="tip">用户名</p>
         <el-form-item prop="loginName">
-          <el-input  autocomplete="new-password"
+          <el-input
+            autocomplete="new-password"
             v-model.trim="form.loginName"
             clearable
             placeholder="请输入用户名"
@@ -19,7 +20,8 @@
         </el-form-item>
         <p class="tip">密码</p>
         <el-form-item prop="pwd">
-          <el-input autocomplete="new-password"
+          <el-input
+            autocomplete="new-password"
             v-model.trim="form.pwd"
             clearable
             type="password"
@@ -205,7 +207,16 @@ export default {
   width: 100%;
   height: 100%;
 }
-
+@keyframes scales {
+  0% {
+    // transform: scale(1);
+    background-size: 100% 100%;
+  }
+  100% {
+    // transform: scale(1.1);
+    background-size: 120% 120%;
+  }
+}
 .top-box {
   display: flex;
   align-items: center;
@@ -214,8 +225,12 @@ export default {
   height: 100%;
   width: 100%;
   overflow: hidden;
-  background: url('../assets/login_bg.webp') no-repeat top center;
+  background: url('https://qntemp3.bejson.com/upload/97364482649104210.jpg?imageView2/0/w/0/h/0/format/webp')
+    no-repeat top center;
+  // background: url('../assets/login_bg.webp') no-repeat top center;
   background-size: 100% 100%;
+  animation: scales 30s linear forwards;
+
   .content-box {
     div.title {
       font-size: 24px;
@@ -234,7 +249,7 @@ export default {
     width: 480px;
     // height: 505px;
     padding: 20px 65px 57px;
-    background: #fafafd;
+    background: rgb(252 253 255 / 70%);
     border-radius: 4px;
     box-sizing: border-box;
     .el-form-item {

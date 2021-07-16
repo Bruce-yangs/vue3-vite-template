@@ -149,7 +149,8 @@
 <script lang="ts" setup>
 import { ref, reactive, getCurrentInstance, nextTick } from 'vue'
 import { ElMessage } from 'element-plus'
-import Pagination from '../../../components/Pagination.vue'
+import Pagination from 'components/Pagination.vue'
+// import Pagination from '../../../components/Pagination.vue'
 import axios from '../../../utils/request'
 import {
   addAndEditData,
@@ -299,6 +300,9 @@ const handleDel = (id: number) => {
         }
       })
     })
+
+
+    
 }
 </script>
 
