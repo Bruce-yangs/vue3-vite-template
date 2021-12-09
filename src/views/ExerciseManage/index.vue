@@ -312,7 +312,7 @@ const handleEvent = () => {
 
 <style lang="scss" scoped>
 .container {
-  padding: 20px;
+  padding: 24px;
   overflow-y: auto;
   box-sizing: border-box;
   .title {

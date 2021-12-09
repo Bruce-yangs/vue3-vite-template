@@ -1,6 +1,6 @@
 import axios from 'axios'
 import router from '../router/index'
-import { ElMessage } from 'element-plus'
+// import { ElMessage } from 'element-plus'
 
 //请求拦截器
 const request = axios.create()
@@ -16,7 +16,7 @@ request.interceptors.request.use(
 request.interceptors.response.use(
   res => {
     if (res.data.code === 401) {
-      ElMessage.error(res.data.msg)
+      // ElMessage.error(res.data.msg)
       router.replace('/login')
 
       return res

@@ -224,7 +224,7 @@ export default {
   height: 100%;
   width: 100%;
   overflow: hidden;
-  background: url('https://qntemp3.bejson.com/upload/97364482649104210.jpg?imageView2/0/w/0/h/0/format/webp')
+  background: url('https://s3.bmp.ovh/imgs/2021/12/5951f4544c5438cc.jpeg')
     no-repeat top center;
   // background: url('../assets/login_bg.webp') no-repeat top center;
   background-size: 100% 100%;

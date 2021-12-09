@@ -6,13 +6,18 @@
 // $--color-menu: rgb(40, 39, 39); //菜单按钮背景
 // $--color-menu--font: #3BC6BC; //菜单按钮字体
 
-$--color-primary: #40BE8C;
-$--color-assist: #B6EBD6; //辅助色（滑过）
+// $--color-primary: rgb(146, 245, 89);
+$--color-primary: #2E76CA;//主题色
+$--color-assist: #3F98FF; //辅助色（滑过）
 $--color-gray-secondary: #C1CAD8; //删除确认弹框
-$--color-menu: rgb(40, 39, 39) !important; //菜单按钮背景
-$--color-menu--font: #40BE8C !important; //菜单按钮字体
+$--color-menu: #252F47 ; //菜单按钮背景
+// $--color-menu: rgb(40, 39, 39) !important; //菜单按钮背景
+$--color-menu--font: #2d8cf0 /* !important */; //菜单按钮字体
 
+$--color-active-menu: #2E76CA!important; //滑过-菜单按钮背景
+$--color-active-menu--font: #fff!important; //滑过-菜单按钮字体
 
+// #252f47 菜单按钮背景
 
 // $--color-primary: #3BC6BC;
 // $--color-assist: #17cabe; //辅助色（滑过）

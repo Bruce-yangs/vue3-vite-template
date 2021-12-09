@@ -1,11 +1,17 @@
 <template>
-  <div class="container">
-    <p class="title">角色管理</p>
+  <div class="common-container">
+    <!-- <p class="title" @click="onClickCount">角色管理 {{counts}}</p> -->
+    <div class="breadcrumb-container">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item>角色管理</el-breadcrumb-item>
+      </el-breadcrumb>
+    </div>
     <el-card shadow="never">
       <el-form
         :inline="true"
         :model="form"
         label-suffix="："
+        label-position="top"
         class="filter-container"
         label-width="90px"
       >
@@ -19,11 +25,14 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-button class="ml-6" type="primary" @click="asyncData">
-          查询
-        </el-button>
-        <el-button plain @click="handleReset">重置</el-button>
+        <div class="form-submit-btns">
+          <el-button class="ml-6" type="primary" @click="asyncData">
+            查询
+          </el-button>
+          <el-button plain @click="handleReset">重置</el-button>
+        </div>
       </el-form>
+      <hr>
       <div class="control-button">
         <el-button v-has="'role_add'" type="primary" @click="showDialog('add')">
           添加
@@ -137,9 +146,7 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="closeDialog">取 消</el-button>
-          <el-button type="primary" @click="handleAdd">
-            确 定
-          </el-button>
+          <el-button type="primary" @click="handleAdd">确 定</el-button>
         </span>
       </template>
     </el-dialog>
@@ -147,9 +154,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, getCurrentInstance, nextTick } from 'vue'
+// import { ref } from 'vue'
+// import { ref, reactive, getCurrentInstance, nextTick } from 'vue'
 import { ElMessage } from 'element-plus'
-import Pagination from 'components/Pagination.vue'
+// import Pagination from 'components/Pagination.vue'
 // import Pagination from '../../../components/Pagination.vue'
 import axios from '../../../utils/request'
 import {
@@ -158,22 +166,27 @@ import {
   // useAsyncTreeData,
   // commonFnTree /* useDataFillds */,
   useAsyncData,
-  useDataFillds
+  useDataFillds,
 } from './hooks'
 import { useRouter } from 'vue-router'
 // 添加/编辑 用户弹出框的校验规则
 const rules = {
   groupName: {
     required: true,
-    message: '请填写角色名称'
+    message: '请填写角色名称',
   },
   groupRemark: {
-    required: false
-  }
+    required: false,
+  },
+}
+let counts = $ref(0)
+const onClickCount = () => {
+  counts++
 }
 // 权限设置校验
 const titleDesc = { check: '查看', edit: '编辑', add: '添加' }
-const sortName: any = { '1': '问题收集', '2': '问题分析', '3': '主管' }
+const sortName = { '1': '问题收集', '2': '问题分析', '3': '主管' }
+
 const currentPage = ref(1)
 const pageSize = ref(10)
 const total = ref(0)
@@ -184,12 +197,12 @@ const formRef = ref()
 const isLoading = ref(true)
 const router = useRouter()
 const form = reactive({
-  id: '' // 分组名称
+  id: '', // 分组名称
 })
 
 const datas: any = reactive({
   tableData: [],
-  roleList: []
+  roleList: [],
 })
 
 // 编辑数据时的id
@@ -202,15 +215,15 @@ const asyncData = () => {
       params: {
         ...form,
         pageNum: currentPage.value,
-        pageSize: pageSize.value
-      }
+        pageSize: pageSize.value,
+      },
     })
-    .then(res => {
+    .then((res) => {
       if (res.data.code === 200) {
         datas.tableData = res.data.data.list || []
         total.value = res.data.data.total
       } else {
-        ElMessage.error(res.data.msg)
+        // ElMessage.error(res.data.msg)
       }
     })
     .finally(() => {
@@ -218,6 +231,7 @@ const asyncData = () => {
     })
 }
 asyncData()
+ElMessage.error('1212')
 
 // 重置数据
 const handleReset = () => {
@@ -231,7 +245,7 @@ const titleName = ref('') //弹框title
 //弹框数据
 const dialogForm = reactive({
   groupName: '', // 角色名称
-  groupRemark: ''
+  groupRemark: '',
 })
 
 const { roleList, asyncRoleList } = useDataFillds()
@@ -254,7 +268,7 @@ const showDialog = (type: string, item: any = {}) => {
   isShowAddDialog.value = true
   if (type === 'edit' || type === 'check') {
     const info = useAsyncData(editId as number)
-    info(res => {
+    info((res) => {
       Object.assign(dialogForm, res)
       if (type === 'check') {
         isCheck.value = true
@@ -266,7 +280,7 @@ const showDialog = (type: string, item: any = {}) => {
 const handleAdd = () => {
   formRef.value?.validate((valid: any) => {
     if (valid) {
-      addAndEditData(editId, dialogForm).then(res => {
+      addAndEditData(editId, dialogForm).then((res) => {
         if (res) {
           // datas.roleList = useDataFillds()
           asyncRoleList()
@@ -289,10 +303,10 @@ const handleDel = (id: number) => {
       center: true,
       customClass: 'common-confirm-box',
       confirmButtonClass: 'common-btn-primary',
-      cancelButtonClass: 'common-btn-text'
+      cancelButtonClass: 'common-btn-text',
     })
     .then(() => {
-      equipmentDeleteItem(id).then(res => {
+      equipmentDeleteItem(id).then((res) => {
         if (res) {
           asyncData()
           // datas.roleList = useDataFillds()
@@ -304,15 +318,14 @@ const handleDel = (id: number) => {
 </script>
 
 <style lang="scss" scoped>
-.container {
-  padding: 20px;
+.common-container {
+  // padding: 15px 24px 24px 24px;
   overflow-y: auto;
   box-sizing: border-box;
   .title {
     font-size: 16px;
     color: #454545;
     font-weight: 500;
-    margin-bottom: 16px;
   }
   .filter-container {
     :deep(.el-form-item--small.el-form-item) {

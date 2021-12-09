@@ -3,9 +3,8 @@
     <p class="title">用户管理</p>
     <el-card shadow="never">
       <el-form
-        :inline="true"
+        :inline="true" label-position="top"
         :model="form"
-        label-suffix="："
         class="filter-container"
         label-width="90px"
       >
@@ -40,10 +39,13 @@
           </el-select>
         </el-form-item>
 
-        <el-button class="ml-6" type="primary" @click="asyncData">
-          查询
-        </el-button>
-        <el-button plain @click="handleReset">重置</el-button>
+        <div class="form-submit-btns">
+          <el-button class="ml-16" type="primary" @click="asyncData">
+            查询
+          </el-button>
+          <el-button plain @click="handleReset">重置</el-button>
+        </div>
+
       </el-form>
       <div class="control-button">
         <!-- v-has="'drone-add'" -->
@@ -450,7 +452,7 @@ const showDialog = (type: string, item: any = {}) => {
 
 <style lang="scss" scoped>
 .container {
-  padding: 20px;
+  padding: 24px;
   overflow-y: auto;
   box-sizing: border-box;
   .title {

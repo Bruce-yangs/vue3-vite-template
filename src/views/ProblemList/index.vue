@@ -543,7 +543,7 @@ h3 {
   margin-left: 10px;
 }
 .container {
-  padding: 20px;
+  padding: 24px;
   overflow-y: auto;
   box-sizing: border-box;
   .title {
@@ -568,8 +568,8 @@ h3 {
 }
 </style>
 <style>
-.quesition-list .el-date-editor.el-input,
+/* .quesition-list .el-date-editor.el-input,
 .quesition-list .el-date-editor.el-input__inner {
   width: 160px;
-}
+} */
 </style>

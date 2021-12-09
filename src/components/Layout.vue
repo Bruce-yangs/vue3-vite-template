@@ -4,7 +4,7 @@
       <Menu @toggleCollapse="toggleCollapse" />
     </el-aside>
     <el-container class="main-container">
-      <el-header class="header">
+      <!-- <el-header class="header">
         <div
           class="msg-box"
           @click="router.push('/problem-list?auditStatus=2')"
@@ -15,7 +15,6 @@
         <div class="avatar-container">
           <el-dropdown @command="handleCommand">
             <div>
-              <!-- <i class="iconfont icon-yonghu avatar"></i> -->
               <img
                 style="display: inline-block;
                   border-radius: 50%;
@@ -23,7 +22,6 @@
                 src="https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80"
               />
               <span>{{ username }}</span>
-              <!-- https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80 -->
             </div>
             <template #dropdown>
               <el-dropdown-menu>
@@ -32,8 +30,11 @@
             </template>
           </el-dropdown>
         </div>
-      </el-header>
-      <router-view :menu-open="menuOpen" />
+      </el-header> -->
+      <div class="h-screen w-screen overflow-auto" >
+
+        <router-view :menu-open="menuOpen" />
+      </div>
     </el-container>
   </el-container>
 </template>
@@ -41,7 +42,7 @@
 <script lang="ts">
 import { defineComponent, ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
+// import { ElMessage } from 'element-plus'
 import Menu from './Menu.vue'
 import axios from '../utils/request'
 import { useStore } from 'vuex'
@@ -50,7 +51,7 @@ export default defineComponent({
   setup() {
     const router = useRouter()
     const menuOpen = ref(false)
-    const asideWidth = ref('180px')
+    const asideWidth = ref('208px')
     const username = window.localStorage.getItem('username')
 
     const toggleCollapse = (collapse: boolean) => {

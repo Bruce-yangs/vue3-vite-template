@@ -1,7 +1,11 @@
 <template>
-  <router-view />
+  <el-config-provider :locale="zhCn">
+      <router-view />
+  </el-config-provider>
 </template>
-
+<script setup>
+  import zhCn from 'element-plus/lib/locale/lang/zh-cn'
+  </script>
 <style lang="scss">
 * {
   margin: 0;
@@ -20,5 +24,18 @@ body,
   overflow: hidden;
   color: #2c3e50;
   font-size: 14px;
+}
+:root {
+    --el-color-primary: #2E76CA;
+}
+.el-button--primary {
+    --el-button-font-color: #ffffff;
+    --el-button-background-color: #2E76CA!important;
+    --el-button-border-color: #2E76CA!important;
+    --el-button-hover-color: #3F98FF!important;
+    // --el-button-hover-color: #2d73c4!important;
+    --el-button-active-font-color: #e6e6e6!important;
+    --el-button-active-background-color: #2E76CA!important;
+    --el-button-active-border-color: #2E76CA!important;
 }
 </style>

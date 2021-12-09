@@ -5,8 +5,9 @@
       :collapse="menu.collapse"
       router
       :default-active="menu.activePath"
-      background-color="#323131"
+      background-color="#36425D"
       text-color="#fff"
+      active-text-color="#2d8cf0"
       unique-opened
       :default-openeds="menu.openeds"
       :collapse-transition="false"
@@ -14,33 +15,33 @@
       <!-- active-text-color="#fff"
       text-color="#fff"
        -->
-      <div class="logo">
+          <!-- https://panjiachen.github.io/vue-element-admin/static/img/401.089007e7.gif?1626230077767 -->
+
+      <!-- <div class="logo">
         <div>
           <img
             class="logo ml-auto mr-auto"
-            style="display: inline-block;
-                  width: 50px;"
+            style="display: inline-block; width: 50px"
             src="https://wpimg.wallstcn.com/0e03b7da-db9e-4819-ba10-9016ddfdaed3"
             width="38"
             alt="logo"
           />
-          <!-- https://panjiachen.github.io/vue-element-admin/static/img/401.089007e7.gif?1626230077767 -->
         </div>
-        <span v-show="!menu.collapse" style="color: #fff;">
+        <span v-show="!menu.collapse" style="color: #fff">
           vue3-vite-template
         </span>
-      </div>
-      <div class="collapse-control" @click="toggleCollapse">
+      </div> -->
+      <!-- <div class="collapse-control" @click="toggleCollapse">
         <i
           class="iconfont"
           :class="{
             'icon-shouqi': !menu.collapse,
-            'icon-zhankai': menu.collapse
+            'icon-zhankai': menu.collapse,
           }"
         ></i>
-      </div>
-      <div v-for="item in menu.menus" :key="item.id">
-        <el-submenu
+      </div> -->
+      <div v-for="item in menu.menus" :key="item.powerUrl">
+        <el-sub-menu
           v-if="item.children && item.children.length"
           :index="item.powerUrl || ''"
           :key="item.powerUrl"
@@ -57,16 +58,13 @@
           >
             {{ subItem.powerName }}
           </el-menu-item>
-        </el-submenu>
-        <el-menu-item v-else :index="item.powerUrl" :key="item.powerUrl">
+        </el-sub-menu>
+        <el-menu-item v-else :index="item.powerUrl" :key="item.powerName">
           <i class="iconfont title-icon" :class="item.icon"></i>
           <template #title>
             <span>{{ item.powerName }}</span>
           </template>
         </el-menu-item>
-      </div>
-      <div v-show="!menu.collapse" class="bottom-title">
-        <span>北京玥果科技有限公司</span>
       </div>
     </el-menu>
   </div>
@@ -99,7 +97,7 @@ const useMenu = () => {
       children: [],
       powerName: '首页',
       powerNo: '20001',
-      powerUrl: '/index'
+      powerUrl: '/index',
     },
     {
       btns: [],
@@ -111,24 +109,24 @@ const useMenu = () => {
             'issue_check',
             'issue_edit',
             'issue_copy',
-            'issue_supplement'
+            'issue_supplement',
           ],
           children: [],
           powerName: '列表管理',
           powerNo: '20008',
-          powerUrl: '/problem-list'
+          powerUrl: '/problem-list',
         },
         {
           btns: [],
           children: [],
           powerName: '数据统计',
           powerNo: '20009',
-          powerUrl: '/problem-report'
-        }
+          powerUrl: '/problem-report',
+        },
       ],
       powerName: '表单设计',
       powerNo: '20002',
-      powerUrl: '/problem-list'
+      powerUrl: '/problem-list',
     },
     {
       btns: [],
@@ -139,24 +137,24 @@ const useMenu = () => {
             'role_edit',
             'role_check',
             'role_delete',
-            'role_manage_user'
+            'role_manage_user',
           ],
           children: [],
           powerName: '角色管理',
           powerNo: '20087',
-          powerUrl: '/role-manage'
+          powerUrl: '/role-manage',
         },
         {
           btns: [
             'authority_add',
             'authority_edit',
             'authority_delete',
-            'authority_check'
+            'authority_check',
           ],
           children: [],
           powerName: '权限管理',
           powerNo: '20022',
-          powerUrl: '/authority-manage'
+          powerUrl: '/authority-manage',
         },
         {
           btns: [
@@ -164,18 +162,18 @@ const useMenu = () => {
             'user_edit',
             'user_delete',
             'user_check',
-            'user_edit_pwd'
+            'user_edit_pwd',
           ],
           children: [],
           powerName: '用户管理',
           powerNo: '20023',
-          powerUrl: '/user-manage'
-        }
+          powerUrl: '/user-manage',
+        },
       ],
       powerName: '系统管理',
       powerNo: '20006',
-      powerUrl: '系统设置'
-    }
+      powerUrl: '系统设置',
+    },
   ]
 
   // icon
@@ -229,7 +227,7 @@ const useMenu = () => {
     activePath: '/',
     collapse: false,
     openeds: [''],
-    menus: menusList as MenuList[]
+    menus: menusList as MenuList[],
   })
 
   // 切换展开收起
@@ -240,7 +238,7 @@ const useMenu = () => {
   // activePath
   watch(
     () => route.path,
-    value => {
+    (value) => {
       const activePathArr = value.split('/')
       const activeManage = activePathArr.length >= 2 ? activePathArr[1] : ''
       menu.activePath = `/${activeManage}`
@@ -260,7 +258,7 @@ const useMenu = () => {
   )
   return {
     menu,
-    toggleCollapse
+    toggleCollapse,
   }
 }
 
@@ -270,7 +268,7 @@ export default defineComponent({
     const route = useRoute()
     watch(
       () => menu.collapse,
-      state => {
+      (state) => {
         emit('toggleCollapse', state)
       }
     )
@@ -278,9 +276,9 @@ export default defineComponent({
     return {
       menu,
       toggleCollapse,
-      path: route.path
+      path: route.path,
     }
-  }
+  },
 })
 </script>
 <style lang="scss" scoped>
@@ -288,57 +286,86 @@ export default defineComponent({
 .menu-container {
   cursor: pointer;
   height: 100%;
+  span,
+  .el-menu-item {
+    font-size: 16px;
+  }
   :deep(.el-menu.el-menu--collapse) {
     height: 100%;
   }
-  :deep(.el-menu) {
-    height: calc(100% - 32px);
-    border-right: none;
-    // .el-menu-item.is-active {
-    //   // background: #516fbf !important;
-    // }
+  .title-icon {
+    color: #9dabc3;
+    margin-right: 10px;
+  }
+  
 
-    // .el-submenu.is-opened .el-submenu__title {
-    //   // background-color: #454545 !important;
-    // }
-    .el-submenu .el-submenu__title .title-icon,
-    .el-menu-item .title-icon {
-      padding-right: 4px;
-    }
-    .el-submenu .el-submenu__title:hover,
-    .el-menu-item:hover,
-    .el-submenu.is-active {
-      background-color: $--color-menu;
-      color: $--color-menu--font;
-      i,
-      .el-submenu__title {
-        color: $--color-menu--font;
-      }
-    }
-    .el-submenu.is-active.is-opened .el-submenu__title {
-      background-color: $--color-menu;
-      color: $--color-menu--font;
-      i {
-        color: $--color-menu--font;
-      }
-    }
-    .el-submenu .el-menu-item {
-      background-color: $--color-menu;
-    }
-    .el-submenu .el-menu-item.is-active,
-    .el-submenu .el-menu-item:hover {
-      background: $--color-menu;
+  .el-menu-item.is-active,
+  .el-menu-item:hover,
+  .el-sub-menu__title.is-active {
+    background-color: $--color-active-menu;
+    color: $--color-active-menu--font;
+    :deep(.el-menu-item) {
+      background-color: $--color-menu !important;
     }
   }
-  :deep(.el-menu--collapse) {
-    .el-menu-item span,
-    .el-submenu > .el-submenu__title span {
-      height: 0;
-      width: 0;
-      overflow: hidden;
-      visibility: hidden;
-      display: inline-block;
+  :deep(.el-menu) {
+    &.el-menu--inline{
+      background: #252F47;
     }
+    height: 100%;
+    // height: calc(100% - 32px);
+    border-right: none;
+    // .el-sub-menu .el-sub-menu__title .title-icon,
+    .el-menu-item {
+      .title-icon {
+        // color: #9dabc3;
+        background: none;
+      }
+      &.is-active .title-icon {
+        color: $--color-active-menu--font;
+      }
+    }
+    //收起样式 start================================================================
+    // &.el-menu--collapse .el-menu-item{
+    //   .is-active {
+    //     background-color: transparent;
+    //     // background-color: $--color-menu !important;
+    //     .title-icon {
+    //       color: $--color-menu--font;
+    //     }
+    //   }
+    //   &.is-active:hover {
+    //     background-color: $--color-menu !important;
+    //     .title-icon {
+    //       // color: $--color-menu--font;
+    //     }
+    //   }
+    // }
+  }
+
+  // :deep(.el-menu--collapse) {
+  //   .el-menu-item span,
+  //   .el-sub-menu > .el-sub-menu__title span {
+  //     height: 0;
+  //     width: 0;
+  //     overflow: hidden;
+  //     visibility: hidden;
+  //     display: inline-block;
+  //   }
+  // }
+}
+
+:deep(.el-sub-menu.is-active.is-opened .el-sub-menu__title),
+:deep(.el-sub-menu.is-active .el-sub-menu__title),
+:deep(.el-sub-menu.is-active .el-sub-menu__title .title-icon) {
+  color: $--color-menu--font !important;
+}
+:deep(.el-sub-menu .el-sub-menu__title:hover),
+:deep(.el-sub-menu.is-active.is-opened .el-sub-menu__title:hover) {
+  background-color: $--color-active-menu;
+  color: $--color-active-menu--font;
+  i {
+    color: $--color-active-menu--font;
   }
 }
 
@@ -364,7 +391,7 @@ export default defineComponent({
   }
 }
 .bottom-title {
-  width: 180px;
+  width: 208px;
   height: 45px;
   line-height: 45px;
   text-align: center;
@@ -373,10 +400,19 @@ export default defineComponent({
   position: fixed;
   bottom: 0;
 }
+
+.el-menu--collapse > .el-menu-item .el-sub-menu__icon-arrow,
+.menu-container
+  .el-sub-menu__title
+  .el-sub-menu__icon-arrow.el-icon-arrow-right {
+  display: none !important;
+}
 </style>
 <style>
-.menu-container .el-menu--collapse > .el-menu-item .el-submenu__icon-arrow,
-.menu-container .el-submenu__title .el-submenu__icon-arrow.el-icon-arrow-right {
+.menu-container .el-menu--collapse > .el-menu-item .el-sub-menu__icon-arrow,
+.menu-container
+  .el-sub-menu__title
+  .el-sub-menu__icon-arrow.el-icon-arrow-right {
   display: none !important;
 }
 </style>

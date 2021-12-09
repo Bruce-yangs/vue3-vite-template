@@ -10,3 +10,13 @@
 $--font-path: 'element-plus/lib/theme-chalk/fonts';
 
 @import "element-plus/packages/theme-chalk/src/index";
+
+
+//https://element-plus.gitee.io/zh-CN/guide/theming.html#%E5%A6%82%E4%BD%95%E8%A6%86%E7%9B%96%E5%AE%83%EF%BC%9F
+// @forward 'element-plus/theme-chalk/src/common/var.scss' with (
+//   $colors: (
+//     'primary': (
+//       'base': green,
+//     ),
+//   )
+// );
