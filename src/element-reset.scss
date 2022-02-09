@@ -70,7 +70,7 @@
   }
 }
 
-.el-input:not(.el-pagination .el-input),
+.el-input:not(.el-pagination .el-input,.login-container .el-input),
 .el-date-editor.el-input {
   width: 264px !important;
 }

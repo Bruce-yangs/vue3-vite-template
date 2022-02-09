@@ -13,7 +13,7 @@
         <el-form-item prop="loginName">
           <el-input
             v-model.trim="form.loginName"
-            clearable
+            
             placeholder="请输入用户名"
           ></el-input>
         </el-form-item>
@@ -21,7 +21,7 @@
         <el-form-item prop="pwd">
           <el-input
             v-model.trim="form.pwd"
-            clearable
+            
             type="password"
             placeholder="6-20位字母数字、数字或者英文符号，区分大小写"
           ></el-input>
@@ -30,7 +30,7 @@
         <el-form-item prop="authCode" style="margin-bottom: 7px;">
           <el-input
             @keyup.enter="onClickLoginBtn"
-            clearable
+            
             v-model.trim="form.authCode"
             placeholder="请输入验证码"
           ></el-input>
